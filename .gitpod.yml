@@ -1,0 +1,19 @@
+tasks:
+  - init: |
+      sudo apt-get update
+      sudo apt-get install -y php mysql-server
+      composer create-project drupal/recommended-project my_drupal
+      cd my_drupal
+      composer require drupal/jsonapi
+      cd ..
+      npx create-nuxt-app my-nuxt-app
+  - command: |
+      cd my_drupal
+      php -S 0.0.0.0:8000 -t web &
+      cd ../my-nuxt-app
+      npm run dev
+ports:
+  - port: 8000
+    onOpen: open-preview
+  - port: 3000
+    onOpen: open-preview
